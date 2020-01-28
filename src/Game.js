@@ -11,6 +11,7 @@ class Game {
     this.currentRound = '';
     this.cards = [];
     this.deck = '';
+    this.incorrectCards = '';
   }
 
   printMessage(deck) {
@@ -18,8 +19,11 @@ class Game {
 -----------------------------------------------------------------------`)
   }
 
-  printQuestion(round) {
-    util.main(round);
+  async printQuestion(round) {
+    console.log('1')
+    await util.main(round);
+    console.log('2')
+    this.newRound();
   }
 
   start() {
@@ -30,6 +34,18 @@ class Game {
     this.deck = new Deck(this.cards);
     this.currentRound = new Round(this.deck);
     this.printMessage(this.deck);
+    this.printQuestion(this.currentRound);
+  }
+
+  newRound() {
+    this.incorrectCards = this.currentRound.incorrectGuesses.map(guess => {
+      const targetQuestion = prototypeQuestions[(guess + 1)];
+      guess = new Card (targetQuestion.id, targetQuestion.question, targetQuestion.answers, targetQuestion.correctAnswer);
+      return guess;
+    });
+    let newDeck = new Deck(this.incorrectCards);
+    this.currentRound = new Round(newDeck);
+    this.printMessage(newDeck);
     this.printQuestion(this.currentRound);
   }
 }
