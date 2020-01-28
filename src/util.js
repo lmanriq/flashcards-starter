@@ -1,5 +1,7 @@
-const Game = require('../src/Game');
+const Deck = require('../src/Deck');
+// const Game = require('../src/Game');
 const Round = require('../src/Round');
+const game = require('../index.js');
 
 const data = require('./data');
 const prototypeQuestions = data.prototypeData;
@@ -41,21 +43,20 @@ async function main(round) {
   const getAnswer = await inquirer.prompt(genList(currentRound));
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
 
-    if(!round.returnCurrentCard()) {
-      round.endRound();
-      // try {
-      //   let newDeck = round.newRound();
-      //   let newRound = new Round(newDeck);
-      //   let newGame = new Game();
-      //   console.log(`You got ${round.incorrectGuesses.length} questions wrong. You will now have the chance to re-answer those questions.`);
-      //   newGame.start();
-      // }
-      // catch(error) {
-      //   console.error(error);
-      // }
-    } else {
-      main(round);
-    }
+  if(!round.returnCurrentCard() && round.incorrectGuesses.length) {
+    round.endRound();
+    let newGame = game.game;
+    newGame.cards = round.findIncorrectCards();
+    newGame.deck = new Deck(newGame.cards);
+    newGame.currentRound = new Round(newGame.deck);
+    newGame.start(newGame.cards, newGame.deck, newGame.currentRound);
+    console.log(`You got ${round.incorrectGuesses.length} questions wrong. You will now have the chance to re-answer those questions.`);
+  } else if (!round.returnCurrentCard()) {
+    round.endRound();
+    console.log('Congrats! You answered all questions correctly!')
+  } else {
+    main(round);
+  }
 }
 
 module.exports.main = main;
