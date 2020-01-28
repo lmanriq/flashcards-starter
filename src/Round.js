@@ -1,3 +1,8 @@
+const data = require('./data');
+const prototypeQuestions = data.prototypeData;
+
+const Card = require('../src/Card');
+const Deck = require('../src/Deck');
 const Turn = require('../src/Turn');
 
 class Round {
@@ -33,6 +38,16 @@ class Round {
     const message = `** Round over! ** You answered ${percentCorrect}% of the questions correctly!`
     console.log(message);
     return(message);
+  }
+
+    newRound() {
+    let incorrectCards = this.incorrectGuesses.map(guess => {
+      const targetQuestion = prototypeQuestions[(guess + 1)];
+      guess = new Card (targetQuestion.id, targetQuestion.question, targetQuestion.answers, targetQuestion.correctAnswer);
+      return guess;
+    });
+    let newDeck = new Deck(incorrectCards);
+    return newDeck;
   }
 }
 
