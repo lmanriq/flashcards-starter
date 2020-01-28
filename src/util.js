@@ -1,7 +1,5 @@
 const Deck = require('../src/Deck');
-// const Game = require('../src/Game');
 const Round = require('../src/Round');
-const game = require('../index.js');
 
 const data = require('./data');
 const prototypeQuestions = data.prototypeData;
@@ -42,10 +40,11 @@ async function main(round) {
   const currentRound = await getRound(round);
   const getAnswer = await inquirer.prompt(genList(currentRound));
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
+  const game = require('../index.js');
 
   if(!round.returnCurrentCard() && round.incorrectGuesses.length) {
     round.endRound();
-    let newGame = game.game;
+    const newGame = game.game;
     newGame.cards = round.findIncorrectCards();
     newGame.deck = new Deck(newGame.cards);
     newGame.currentRound = new Round(newGame.deck);
