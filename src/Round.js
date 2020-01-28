@@ -10,11 +10,11 @@ class Round {
     this.deck = deck.cards;
     this.turns = 0;
     this.incorrectGuesses = [];
-    this.currentCardIndex = 0;
-    this.currentCard = this.deck[this.currentCardIndex]
+    this.currentCard = this.deck[this.turns]
   }
 
   returnCurrentCard() {
+    this.currentCard = this.deck[this.turns];
     return this.currentCard;
   }
 
@@ -24,13 +24,13 @@ class Round {
       this.incorrectGuesses.push(this.currentCard.id);
     }
     this.turns++;
-    this.currentCardIndex++
-    this.currentCard = this.deck[this.currentCardIndex];
+    this.currentCard = this.deck[this.turns];
     return currentTurn.giveFeedback();
   }
 
   calculatePercentCorrect() {
-    return this.incorrectGuesses.length / this.turns * 100;
+    let percentIncorrect = this.incorrectGuesses.length / this.turns * 100;
+    return Math.floor(100 - percentIncorrect);
   }
 
   endRound() {
@@ -40,14 +40,13 @@ class Round {
     return(message);
   }
 
-    newRound() {
+  findIncorrectCards() {
     let incorrectCards = this.incorrectGuesses.map(guess => {
-      const targetQuestion = prototypeQuestions[(guess + 1)];
+      const targetQuestion = prototypeQuestions[guess - 1];
       guess = new Card (targetQuestion.id, targetQuestion.question, targetQuestion.answers, targetQuestion.correctAnswer);
       return guess;
     });
-    let newDeck = new Deck(incorrectCards);
-    return newDeck;
+    return incorrectCards;
   }
 }
 
