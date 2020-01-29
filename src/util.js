@@ -40,16 +40,15 @@ async function main(round) {
   const currentRound = await getRound(round);
   const getAnswer = await inquirer.prompt(genList(currentRound));
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
-  const game = require('../index.js');
 
   if(!round.returnCurrentCard() && round.incorrectGuesses.length) {
     round.endRound();
-    const newGame = game.game;
-    newGame.cards = round.findIncorrectCards();
-    newGame.deck = new Deck(newGame.cards);
-    newGame.currentRound = new Round(newGame.deck);
-    newGame.start(newGame.cards, newGame.deck, newGame.currentRound);
     console.log(`You got ${round.incorrectGuesses.length} questions wrong. You will now have the chance to re-answer those questions.`);
+    const newCards = round.findIncorrectCards();
+    const newDeck = new Deck(newCards);
+    const newRound = new Round(newDeck);
+    round = newRound;
+    main(round);
   } else if (!round.returnCurrentCard()) {
     round.endRound();
     console.log('Congrats! You answered all questions correctly!')
