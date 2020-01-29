@@ -54,7 +54,7 @@ describe('Round', function() {
     round.takeTurn('map()');
     round.takeTurn('map()');
     const percentCorrect = round.calculatePercentCorrect();
-    expect(round.endRound()).to.equal(`** Round over! ** You answered ${percentCorrect}% of the questions correctly!`);
+    expect(round.endRound()).to.equal(`** Round over! ** You answered ${percentCorrect}% of the questions correctly! \n It took you 0 mins and 0 secs to complete.`);
   });
 
   it('should be able to find cards for questions answered incorrectly', function() {
