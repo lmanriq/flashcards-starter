@@ -11,7 +11,6 @@ class Game {
     this.currentRound = '';
     this.cards = [];
     this.deck = '';
-    this.incorrectCards = '';
   }
 
   printMessage(deck) {
