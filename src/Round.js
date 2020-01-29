@@ -1,5 +1,6 @@
 const data = require('./data');
 const prototypeQuestions = data.prototypeData;
+const {performance} = require('perf_hooks');
 
 const Card = require('../src/Card');
 const Deck = require('../src/Deck');
@@ -10,7 +11,9 @@ class Round {
     this.deck = deck.cards;
     this.turns = 0;
     this.incorrectGuesses = [];
-    this.currentCard = this.deck[this.turns]
+    this.currentCard = this.deck[this.turns];
+    this.startTime = 0;
+    this.endTime = 0;
   }
 
   returnCurrentCard() {
@@ -19,6 +22,9 @@ class Round {
   }
 
   takeTurn(guess) {
+    if (!this.turns) {
+      this.startTime = performance.now();
+    }
     const currentTurn = new Turn(guess, this.currentCard);
     if (!currentTurn.evaluateGuess()) {
       this.incorrectGuesses.push(this.currentCard.id);
@@ -34,8 +40,12 @@ class Round {
   }
 
   endRound() {
+    this.endTime = performance.now();
+    const timeElapsed = this.endTime - this.startTime;
+    const mins = Math.floor(timeElapsed / 60000);
+    const secs = Math.floor(timeElapsed / 1000) - (mins * 60);
     const percentCorrect = this.calculatePercentCorrect();
-    const message = `** Round over! ** You answered ${percentCorrect}% of the questions correctly!`
+    const message = `** Round over! ** You answered ${percentCorrect}% of the questions correctly! \n It took you ${mins} mins and ${secs} secs to complete.`
     console.log(message);
     return(message);
   }
