@@ -22,13 +22,13 @@ class Game {
     util.main(round);
   }
 
-  start(cards, deck, round) {
-    this.cards = cards || prototypeQuestions.map(card => {
+  start() {
+    this.cards = prototypeQuestions.map(card => {
       card = new Card(card.id, card.question, card.answers, card.correctAnswer);
       return card;
     });
-    this.deck = deck || new Deck(this.cards);
-    this.currentRound = round || new Round(this.deck);
+    this.deck = new Deck(this.cards);
+    this.currentRound = new Round(this.deck);
     this.printMessage(this.deck);
     this.printQuestion(this.currentRound);
   }
