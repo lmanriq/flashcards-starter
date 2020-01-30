@@ -66,6 +66,6 @@ describe('Round', function() {
     round.takeTurn('object');
     round.takeTurn('map()');
     round.takeTurn('reduce()');
-    expect(round.findIncorrectCards(1)).to.deep.equal([card2, card3]);
+    expect(round.findIncorrectCards(0)).to.deep.equal([card2, card3]);
   });
 });
