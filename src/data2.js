@@ -31,7 +31,7 @@ const prototypeData2 = [{
 }, {
   "id": 7,
   "question": "What are passed into functions with parameters when they're called?",
-  "answers": ["paramters", "arguments", "objects"],
+  "answers": ["parameters", "arguments", "objects"],
   "correctAnswer": "arguments"
 }, {
   "id": 8,
