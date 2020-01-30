@@ -50,9 +50,9 @@ class Round {
     return(message);
   }
 
-  findIncorrectCards() {
+  findIncorrectCards(dataSet) {
     let incorrectCards = this.incorrectGuesses.map(guess => {
-      const targetQuestion = prototypeQuestions[guess - 1];
+      const targetQuestion = dataSet[guess - 1];
       guess = new Card (targetQuestion.id, targetQuestion.question, targetQuestion.answers, targetQuestion.correctAnswer);
       return guess;
     });
