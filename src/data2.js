@@ -38,4 +38,8 @@ const prototypeData2 = [{
   "question": "What does TDD stand for?",
   "answers": ["Tutoring Devised Development", "Torturing Dumb Dorks", "Test Driven Development"],
   "correctAnswer": "callback function"
+}]
+
+module.exports = {
+  prototypeData2 
 }
