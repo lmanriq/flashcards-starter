@@ -6,7 +6,7 @@ const data2 = require('./data2');
 const prototypeQuestions = data.prototypeData;
 const prototypeQuestions2 = data2.prototypeData2;
 const inquirer = require('inquirer');
-let roundCount = 1;
+let roundCount = 0;
 
 const genList = (round) => {
   let card = round.returnCurrentCard();
@@ -55,12 +55,15 @@ async function main(round) {
     console.log(`You got ${round.incorrectGuesses.length} questions wrong. You will now have the chance to re-answer those questions.`);
     round = makeNewRound(round.findIncorrectCards(roundCount));
     main(round);
-  } else if (!round.returnCurrentCard()) {
+  } else if (!round.returnCurrentCard() && roundCount === 0) {
     round.endRound();
     console.log('Congrats! You answered all questions correctly!');
     round = makeNewRound(prototypeQuestions2);
     roundCount++;
     main(round);
+  } else if (!round.returnCurrentCard() && roundCount === 1) {
+    round.endRound();
+    console.log('Congrats! You answered all questions correctly for all data sets!');
   } else {
     main(round);
   }
