@@ -1,8 +1,10 @@
 const Deck = require('../src/Deck');
 const Round = require('../src/Round');
 
-const data = require('./data');
-const prototypeQuestions = data.prototypeData;
+const data1 = require('./data');
+const data2 = require('./data2');
+const prototypeQuestions1 = data1.prototypeData;
+const prototypeQuestions2 = data2.prototypeData2;
 
 const inquirer = require('inquirer');
 
@@ -35,23 +37,31 @@ const confirmUpdate = (id, round) => {
   }
 }
 
+const makeNewRound = (cards) => {
+  const newCards = cards;
+  const newDeck = new Deck(newCards);
+  const newRound = new Round(newDeck);
+  return newRound;
+}
+
 async function main(round) {
 
   const currentRound = await getRound(round);
   const getAnswer = await inquirer.prompt(genList(currentRound));
   const getConfirm = await inquirer.prompt(confirmUpdate(getAnswer.answers, round));
+  let dataSet = prototypeQuestions1;
 
   if(!round.returnCurrentCard() && round.incorrectGuesses.length) {
     round.endRound();
     console.log(`You got ${round.incorrectGuesses.length} questions wrong. You will now have the chance to re-answer those questions.`);
-    const newCards = round.findIncorrectCards();
-    const newDeck = new Deck(newCards);
-    const newRound = new Round(newDeck);
-    round = newRound;
+    round = makeNewRound(round.findIncorrectCards(dataSet));
     main(round);
   } else if (!round.returnCurrentCard()) {
     round.endRound();
-    console.log('Congrats! You answered all questions correctly!')
+    console.log('Congrats! You answered all questions correctly!');
+    round = makeNewRound(prototypeQuestions2);
+    dataSet = prototypeQuestions2;
+    main(round);
   } else {
     main(round);
   }
