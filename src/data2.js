@@ -37,9 +37,9 @@ const prototypeData2 = [{
   "id": 8,
   "question": "What does TDD stand for?",
   "answers": ["Tutoring Devised Development", "Torturing Dumb Dorks", "Test Driven Development"],
-  "correctAnswer": "callback function"
+  "correctAnswer": "Test Driven Development"
 }]
 
 module.exports = {
-  prototypeData2 
+  prototypeData2
 }
