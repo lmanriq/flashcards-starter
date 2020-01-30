@@ -1,5 +1,7 @@
 const data = require('./data');
 const prototypeQuestions = data.prototypeData;
+const data2 = require('./data2');
+const prototypeQuestions2 = data2.prototypeData2;
 const {performance} = require('perf_hooks');
 
 const Card = require('../src/Card');
@@ -50,7 +52,13 @@ class Round {
     return(message);
   }
 
-  findIncorrectCards(dataSet) {
+  findIncorrectCards(round) {
+    let dataSet;
+    if (round === 1) {
+      dataSet = prototypeQuestions;
+    } else {
+      dataSet = prototypeQuestions2;
+    }
     let incorrectCards = this.incorrectGuesses.map(guess => {
       const targetQuestion = dataSet[guess - 1];
       guess = new Card (targetQuestion.id, targetQuestion.question, targetQuestion.answers, targetQuestion.correctAnswer);
