@@ -48,7 +48,7 @@ class Round {
     const percentCorrect = this.calculatePercentCorrect();
     const message = `** Round over! ** You answered ${percentCorrect}% of the questions correctly! \n It took you ${mins} mins and ${secs} secs to complete.`
     console.log(message);
-    return(message);
+    return message;
   }
 
   findIncorrectCards(round) {
