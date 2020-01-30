@@ -30,17 +30,22 @@ describe('Round', function() {
 
   it('should be able to return its current card', function() {
     expect(round.returnCurrentCard()).to.equal(card1);
+    round.turns++;
+    expect(round.returnCurrentCard()).to.equal(card2);
   });
 
   it('should be able to take turns', function() {
     expect(round.turns).to.equal(0);
-    expect(round.incorrectGuesses).to.deep.equal([])
-    expect(round.returnCurrentCard()).to.equal(card1);
     expect(round.takeTurn('object')).to.equal('correct!');
     expect(round.takeTurn('map()')).to.equal('incorrect!');
     expect(round.turns).to.equal(2);
+  });
+
+  it('should keep track of incorrect guesses', function() {
+    expect(round.incorrectGuesses).to.deep.equal([])
+    expect(round.takeTurn('object')).to.equal('correct!');
+    expect(round.takeTurn('map()')).to.equal('incorrect!');
     expect(round.incorrectGuesses).to.deep.equal([14]);
-    expect(round.returnCurrentCard()).to.equal(card3);
   });
 
   it('should be able to calculate the percentage of currect guesses', function() {
@@ -49,7 +54,7 @@ describe('Round', function() {
     expect(round.calculatePercentCorrect()).to.equal(50);
   });
 
-  it('should be able to end a round', function() {
+  it('should be able to end a round and give feedback', function() {
     round.takeTurn('object');
     round.takeTurn('map()');
     round.takeTurn('map()');
