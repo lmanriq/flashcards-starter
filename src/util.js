@@ -1,3 +1,4 @@
+const Card = require('../src/Card');
 const Deck = require('../src/Deck');
 const Round = require('../src/Round');
 
@@ -58,8 +59,12 @@ async function main(round) {
   } else if (!round.returnCurrentCard() && roundCount === 0) {
     round.endRound();
     console.log('Congrats! You answered all questions correctly!');
-    round = makeNewRound(prototypeQuestions2);
     roundCount++;
+    const secondSetOfCards = prototypeQuestions2.map(card => {
+      card = new Card(card.id, card.question, card.answers, card.correctAnswer);
+      return card;
+    });
+    round = makeNewRound(secondSetOfCards);
     main(round);
   } else if (!round.returnCurrentCard() && roundCount === 1) {
     round.endRound();
